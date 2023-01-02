@@ -1,4 +1,4 @@
-# Setup local dev environment for Windows 10/11
+# Get Started on Windows 10/11
 
 ### Step 1: Enable WSL/VMP (open Powershell as admin):
 ```powershell
@@ -76,7 +76,7 @@ amplify delete
 
 [ReactJS: Adding a SASS Stylesheet](https://create-react-app.dev/docs/adding-a-sass-stylesheet/)
 
-# Getting Started with Create React App
+# Get Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
