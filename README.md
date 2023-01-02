@@ -1,3 +1,81 @@
+# Setup local dev environment for Windows 10/11
+
+### Step 1: Enable WSL/VMP (open Powershell as admin):
+```powershell
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
+```
+
+### Step 2: Install WSL2 and Ubuntu:
+- Install [WSL2](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
+- Install "Ubuntu" from Microsoft Store
+
+### Step 3: Launch Ubuntu
+- Launch Ubuntu
+- Configure user account
+
+### Step 4: Update & Install Node
+```sh
+sudo apt upgrade
+sudo apt install npm
+sudo npm install -g n
+sudo n stable
+```
+
+### Step 5: Restart Ubuntu
+```sh
+exit
+```
+
+### Step 6: Github Project Setup
+- Create a new repo in github
+- Open Ubuntu
+- DO NOT mount windows volumes, i.e. `cd /mnt/c` (`npm start` only works in WSL2 home)
+- Clone into your default home dir `git clone https://github.com/YOUR_USERNAME/my-app`
+
+### Step 7: Create react app
+Simply name the react app the same name as your repo:
+```sh
+npx create-react-app my-app
+cd my-app
+npm start
+```
+
+See official Microsoft instructions for [WSL2 installation](https://learn.microsoft.com/en-us/windows/wsl/install-manual).
+
+
+# Get Started w/ AWS Amplify
+
+### Install Amplify
+```sh
+sudo npm install -g @aws-amplify/cli
+sudo npm install aws-amplify @aws-amplify/ui-react
+```
+
+
+### Common Amplify CLI Commands
+```sh
+amplify init
+amplify add auth
+amplify add api
+
+amplify push
+
+amplify add hosting
+amplify publish
+
+amplify delete
+```
+
+### Resources
+[YouTube: AWS Amplify Full Stack Project](https://www.youtube.com/watch?v=T4MQrRDo20w)
+
+[Github: .gitignore](https://github.com/facebook/react/blob/main/.gitignore)
+
+[Github: react-bootstrap](https://react-bootstrap.github.io/getting-started/introduction)
+
+[ReactJS: Adding a SASS Stylesheet](https://create-react-app.dev/docs/adding-a-sass-stylesheet/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
