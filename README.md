@@ -7,7 +7,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
 ```
 
 ### Step 2: Install WSL2 and Ubuntu:
-- Install [WSL2](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
+- Install [WSL2](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) (see official Microsoft instructions for [WSL2 installation](https://learn.microsoft.com/en-us/windows/wsl/install-manual).)
 - Install "Ubuntu" from Microsoft Store
 
 ### Step 3: Launch Ubuntu
@@ -40,8 +40,6 @@ npx create-react-app my-app
 cd my-app
 npm start
 ```
-
-See official Microsoft instructions for [WSL2 installation](https://learn.microsoft.com/en-us/windows/wsl/install-manual).
 
 
 # Get Started w/ AWS Amplify
