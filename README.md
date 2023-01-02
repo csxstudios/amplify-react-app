@@ -33,7 +33,7 @@ exit
 - DO NOT mount windows volumes, i.e. `cd /mnt/c` (`npm start` only works in WSL2 home)
 - Clone into your default home dir `git clone https://github.com/YOUR_USERNAME/my-app`
 
-### Step 7: Create react app
+### Step 7: Create React App
 Simply name the react app the same name as your repo:
 ```sh
 npx create-react-app my-app
@@ -67,7 +67,7 @@ amplify publish
 amplify delete
 ```
 
-### Resources
+# Resources
 [YouTube: AWS Amplify Full Stack Project](https://www.youtube.com/watch?v=T4MQrRDo20w)
 
 [Github: .gitignore](https://github.com/facebook/react/blob/main/.gitignore)
@@ -75,6 +75,7 @@ amplify delete
 [Github: react-bootstrap](https://react-bootstrap.github.io/getting-started/introduction)
 
 [ReactJS: Adding a SASS Stylesheet](https://create-react-app.dev/docs/adding-a-sass-stylesheet/)
+
 
 # Get Started with Create React App
 
