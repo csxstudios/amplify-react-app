@@ -9,14 +9,24 @@
       "UnauthRoleName": "amplify-amplifyreactapp-dev-91141-unauthRole",
       "StackName": "amplify-amplifyreactapp-dev-91141",
       "StackId": "arn:aws:cloudformation:us-east-1:899026101945:stack/amplify-amplifyreactapp-dev-91141/5f892b70-8aa7-11ed-a8f7-0ad00af538c7",
-      "AmplifyAppId": "dcjwbbkrv4t4w"
+      "AmplifyAppId": "dcjwbbkrv4t4w",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-91141-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "amplifyreactapp6c55e32f": {}
       },
       "function": {
-        "meterLambda": {}
+        "meterLambda": {
+          "deploymentBucketName": "amplify-amplifyreactapp-dev-91141-deployment",
+          "s3Key": "amplify-builds/meterLambda-5a336a424e676365706e-build.zip"
+        }
+      },
+      "storage": {
+        "meterDynamo": {}
+      },
+      "api": {
+        "meterApi": {}
       }
     }
   }
