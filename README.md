@@ -65,6 +65,48 @@ amplify publish
 amplify delete
 ```
 
+
+# Developing the App
+
+### Creating AWS Resources
+- Start w/ `amplify init`
+- Add authentication w/ `amplify add auth`
+- Add your api w/ `amplify add api` and use CRUD w/ DynamoDB
+- Create your resources in AWS w/ `amplify push`
+
+### Add Authentication to App.js
+```javascript
+//Add these imports
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import { Amplify } from 'aws-amplify';
+import awsExports from './aws-exports';
+Amplify.configure(awsExports);
+
+//update your function
+function App({ signOut, user }) {
+  console.log(user);
+  return (
+    <div>
+        <h1>Hello {user.username}</h1>
+        <button onClick={signOut}>Sign out</button>
+    </div>
+  );
+}
+
+export default withAuthenticator(App);
+```
+
+
+### Add CRUD Functionality
+TODO:
+- Add REST API routes ([AWS CRUD API](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-dynamo-db.html))
+- Add a "Create" form w/ bootstrap styling
+- Add a "Read" table w/ bootstrap styling
+- Add a "Update" form w/ bootstrap styling
+- Add a "Delete" form w/ bootstrap styling
+
+
 # Resources
 [YouTube: AWS Amplify Full Stack Project](https://www.youtube.com/watch?v=T4MQrRDo20w)
 
