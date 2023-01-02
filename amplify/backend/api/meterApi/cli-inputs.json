@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "paths": {
+    "/meter": {
+      "name": "/meter",
+      "lambdaFunction": "meterLambda",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    }
+  }
+}

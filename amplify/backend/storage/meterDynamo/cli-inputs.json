@@ -1,0 +1,22 @@
+{
+  "resourceName": "meterDynamo",
+  "tableName": "meterDynamo",
+  "partitionKey": {
+    "fieldName": "meter",
+    "fieldType": "number"
+  },
+  "sortKey": {
+    "fieldName": "date",
+    "fieldType": "number"
+  },
+  "gsi": [
+    {
+      "name": "meterMonthIndex",
+      "partitionKey": {
+        "fieldName": "month",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}
