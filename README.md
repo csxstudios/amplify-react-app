@@ -101,10 +101,11 @@ export default withAuthenticator(App);
 ### Add CRUD Functionality
 TODO:
 - Add REST API routes ([AWS CRUD API](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-dynamo-db.html))
-- Add a "Create" form w/ bootstrap styling
-- Add a "Read" table w/ bootstrap styling
-- Add a "Update" form w/ bootstrap styling
-- Add a "Delete" form w/ bootstrap styling
+- Integrate bootstrap
+- Add a "Create" form
+- Add a "Read" table
+- Add a "Update" form
+- Add a "Delete" form
 
 
 # Resources
