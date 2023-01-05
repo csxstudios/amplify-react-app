@@ -16,6 +16,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
 
 ### Step 4: Update & Install Node
 ```sh
+sudo apt update
 sudo apt upgrade
 sudo apt install npm
 sudo npm install -g n
