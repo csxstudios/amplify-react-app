@@ -13,6 +13,9 @@
     },
     "meterApi": {
       "Type": "String"
+    },
+    "getWeatherApi": {
+      "Type": "String"
     }
   },
   "Conditions": {
