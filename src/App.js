@@ -6,9 +6,17 @@ import { Container, Button, Form, Nav, NavItem, NavLink, Dropdown, Col, Row, Car
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
+// import fetch from 'node-fetch';
 import { Amplify, API } from 'aws-amplify';
 import awsExports from './aws-exports';
 Amplify.configure(awsExports);
+
+async function getCurrentWeather() {
+  const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.84&longitude=-77.43&current_weather=true&temperature_unit=fahrenheit');
+  const data = await response.json();
+  console.log(data.current_weather.temperature);
+  return data.current_weather.temperature;
+};
 
 async function addMeter(formState) {
   const data = {
@@ -70,8 +78,9 @@ function updateFormDate(dateISOString) {
 
 function App({ signOut, user }) {
   const dateNowISO = toISOStringWithTimezone(new Date());
+  const currentTemp = getCurrentWeather();
   updateFormDate(dateNowISO);
-  Object.assign(formState, { user: user.username });
+  Object.assign(formState, { user: user.username, temp: currentTemp });
   console.log(dateNowISO, formState);
   return (
     <div className="App">
@@ -110,7 +119,7 @@ function App({ signOut, user }) {
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formMeterTemp">
                       <Form.Label>Farenheit</Form.Label>
-                      <Form.Control type="number" placeholder="Temp (F)" onChange={e => updateFormState('temp', e.target.value)} defaultValue="61"></Form.Control>
+                      <Form.Control type="number" placeholder="Temp (F)" onChange={e => updateFormState('temp', e.target.value)} defaultValue={currentTemp}></Form.Control>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formMeterLabel">
                       <Form.Label>Location</Form.Label>
