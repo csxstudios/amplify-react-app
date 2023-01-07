@@ -1,33 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Button, Form, Nav, NavItem, NavLink, Dropdown, Col, Row, Card } from 'react-bootstrap';
+import { Container, Nav, NavItem, NavLink, Dropdown, Col, Row, Card } from 'react-bootstrap';
+import MeterForm from './components/MeterForm';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 // import fetch from 'node-fetch';
-import { Amplify, API } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports';
 Amplify.configure(awsExports);
-
-async function getCurrentWeather() {
-  const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.84&longitude=-77.43&current_weather=true&temperature_unit=fahrenheit');
-  const data = await response.json();
-  console.log(data.current_weather.temperature);
-  return data.current_weather.temperature;
-};
-
-async function addMeter(formState) {
-  const data = {
-    body: formState
-  }
-
-  if (data.body.meter > 0) {
-    const apiData = await API.post('meterApi', '/meter', data);
-    console.log({ apiData });
-  }
-}
 
 const formState = {
   meter: 0,
@@ -38,7 +21,7 @@ const formState = {
   year: 2023,
   user: '',
   label: 'home',
-  temp: 61
+  temp: 0
 };
 
 const toISOStringWithTimezone = date => {
@@ -48,10 +31,6 @@ const toISOStringWithTimezone = date => {
     '-' + pad(date.getDate()) +
     'T' + pad(date.getHours()) +
     ':' + pad(date.getMinutes());
-}
-
-function updateFormState(key, value) {
-  formState[key] = value;
 }
 
 function updateFormDate(dateISOString) {
@@ -76,12 +55,15 @@ function updateFormDate(dateISOString) {
   );
 }
 
-function App({ signOut, user }) {
-  const dateNowISO = toISOStringWithTimezone(new Date());
-  const currentTemp = getCurrentWeather();
+function setFormValues(date) {
+  const dateNowISO = toISOStringWithTimezone(date);
   updateFormDate(dateNowISO);
-  Object.assign(formState, { user: user.username, temp: currentTemp });
   console.log(dateNowISO, formState);
+}
+
+function App({ signOut, user }) {
+  setFormValues(new Date());
+  Object.assign(formState, { user: user.username });
   return (
     <div className="App">
       <Nav className="navbar navbar-expand-lg navbar-dark bg-dark px-5">
@@ -107,31 +89,7 @@ function App({ signOut, user }) {
               <Card style={{ width: '100%' }}>
                 <Card.Header><strong>Track Energy Usage</strong></Card.Header>
                 <Card.Body>
-                  <Form>
-                    <Form.Control type="hidden" onChange={e => updateFormState('meter', e.target.value)}></Form.Control>
-                    <Form.Group className="mb-3" controlId="formMeterReading">
-                      <Form.Label>Meter</Form.Label>
-                      <Form.Control type="number" placeholder="Meter reading" onChange={e => updateFormState('meter', e.target.value)}></Form.Control>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formMeterDate">
-                      <Form.Label>Date &amp; Time</Form.Label>
-                      <Form.Control type="datetime-local" placeholder="Date Time" onChange={e => updateFormDate(e.target.value)} defaultValue={dateNowISO}></Form.Control>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formMeterTemp">
-                      <Form.Label>Farenheit</Form.Label>
-                      <Form.Control type="number" placeholder="Temp (F)" onChange={e => updateFormState('temp', e.target.value)} defaultValue={currentTemp}></Form.Control>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formMeterLabel">
-                      <Form.Label>Location</Form.Label>
-                      <Form.Select onChange={e => updateFormState('label', e.target.value)} defaultValue="home">
-                        <option>Select a location</option>
-                        <option>home</option>
-                        <option>rental property</option>
-                        <option>vacation home</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Form>
-                  <Button type="button" variant="primary" onClick={() => addMeter(formState)}>Add Meter Reading</Button>
+                  <MeterForm user={user.username} newDateISO='2023-01-07T08:40' temp={formState.temp} defaultState={formState} />
                 </Card.Body>
               </Card>
             </Col>
