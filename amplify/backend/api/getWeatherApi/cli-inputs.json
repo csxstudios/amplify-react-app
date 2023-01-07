@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/weather": {
+      "name": "/weather",
+      "lambdaFunction": "getWeatherLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

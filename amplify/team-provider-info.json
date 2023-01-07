@@ -20,6 +20,10 @@
         "meterLambda": {
           "deploymentBucketName": "amplify-amplifyreactapp-dev-91141-deployment",
           "s3Key": "amplify-builds/meterLambda-5a336a424e676365706e-build.zip"
+        },
+        "getWeatherLambda": {
+          "deploymentBucketName": "amplify-amplifyreactapp-dev-91141-deployment",
+          "s3Key": "amplify-builds/getWeatherLambda-696d4e6d444f4c392b41-build.zip"
         }
       },
       "storage": {
@@ -27,6 +31,12 @@
       },
       "api": {
         "meterApi": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dcjwbbkrv4t4w",
+          "type": "cicd"
+        }
       }
     }
   }
