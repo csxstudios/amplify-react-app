@@ -100,7 +100,7 @@ class MeterForm extends Component {
         console.log(this.state);
         return (
             <div>
-                It's currently {dateISO} and {temp} F.
+                <h5>It's currently {dateISO} and {temp} F.</h5>
                 <Form>
                     <Form.Control type="hidden" onChange={this.onChange}></Form.Control>
                     <Form.Group className="mb-3" controlId="formMeterReading">
@@ -125,8 +125,8 @@ class MeterForm extends Component {
                         </Form.Select>
                     </Form.Group>
                 </Form>
-                <Button type="button" variant="primary" onClick={this.addMeter}>Add Meter Reading</Button>
-                <Button type="button" variant="primary" onClick={this.getCurrentWeather}>Get Current Temp</Button>
+                <Button className="d-block mb-3" type="button" variant="primary" onClick={this.addMeter}>Add Meter Reading</Button>
+                <Button className="d-none mb-3" type="button" variant="primary" onClick={this.getCurrentWeather}>Get Current Temp</Button>
             </div>
         )
     }

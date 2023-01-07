@@ -1,9 +1,12 @@
-import logo from '../logo.svg';
+// import logo from '../logo.svg';
 import '../App.css';
+import { useContext } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
-import { Navbar, MeterForm } from './';
+import { MeterForm } from './';
+import { AppContext } from '../providers/AppProvider';
 
-const Home = ({ user, signOut }) => {
+const Home = () => {
+    const appContext = useContext(AppContext);
     const formState = {
         meter: 0,
         date: Date.now(),
@@ -57,7 +60,6 @@ const Home = ({ user, signOut }) => {
 
     return (
         <div className="App">
-            <Navbar user={user} signOut={signOut} />
             <div className="bg-dark">
                 <Container className="py-5">
                     <Row>
@@ -65,7 +67,7 @@ const Home = ({ user, signOut }) => {
                             <Card style={{ width: '100%' }}>
                                 <Card.Header><strong>Track Energy Usage</strong></Card.Header>
                                 <Card.Body>
-                                    <MeterForm user={user.username} newDateISO='2023-01-07T08:40' temp={formState.temp} defaultState={formState} />
+                                    <MeterForm user={appContext.user.username} newDateISO='2023-01-07T08:40' temp={formState.temp} defaultState={formState} />
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -76,10 +78,10 @@ const Home = ({ user, signOut }) => {
                 </Container>
             </div>
 
-            <header className="App-header">
+            {/* <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
-                <h1>Hello {user.username}</h1>
-                <button type="button" onClick={signOut}>Sign out</button>
+                <h1>Hello {appContext.user.username}</h1>
+                <button type="button" onClick={appContext.signOut}>Sign out</button>
                 <a
                     className="App-link"
                     href="https://reactjs.org"
@@ -88,7 +90,7 @@ const Home = ({ user, signOut }) => {
                 >
                     Learn React
                 </a>
-            </header>
+            </header> */}
 
         </div>
     );
