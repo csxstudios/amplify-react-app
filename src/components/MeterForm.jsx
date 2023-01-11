@@ -81,7 +81,7 @@ class MeterForm extends Component {
 
     updateFormDate = (dateISOString) => {
         var date = new Date(dateISOString);
-        var thisDateEpoch = date.valueOf();
+        var thisDateEpoch = date.valueOf() / 1000;
         var thisDateISO = dateISOString;
         var thisMonth = date.toLocaleString('default', { month: 'short' });
         var thisWeekday = date.toLocaleString('default', { weekday: 'short' });
