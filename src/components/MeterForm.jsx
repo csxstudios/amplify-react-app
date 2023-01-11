@@ -26,6 +26,11 @@ class MeterForm extends Component {
         this.setState(state);
     }
 
+    onChangeDate = (e) => {
+        console.log(e.target.name, e.target.value);
+        this.updateFormDate(e.target.value);
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
         //do something
@@ -109,7 +114,7 @@ class MeterForm extends Component {
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formMeterDate">
                         <Form.Label>Date &amp; Time</Form.Label>
-                        <Form.Control type="datetime-local" name="dateISO" placeholder="Date Time" onChange={this.updateFormDate} defaultValue={dateISO}></Form.Control>
+                        <Form.Control type="datetime-local" name="dateISO" placeholder="Date Time" onChange={this.onChangeDate} defaultValue={dateISO}></Form.Control>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formMeterTemp">
                         <Form.Label>Farenheit</Form.Label>
