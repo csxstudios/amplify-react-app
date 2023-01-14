@@ -59,7 +59,7 @@ const convertUrlType = (param, type) => {
  * HTTP Get method for list objects *
  ********************************/
 
-app.get(path + hashKeyPath, function (req, res) {
+app.get(path, function (req, res) {
   const condition = {}
   condition[partitionKeyName] = {
     ComparisonOperator: 'EQ'
@@ -78,7 +78,15 @@ app.get(path + hashKeyPath, function (req, res) {
 
   let queryParams = {
     TableName: tableName,
-    KeyConditions: condition
+    IndexName: "user-meter-index",
+    KeyConditionExpression: '#u = :u and meter > :n1',
+    ExpressionAttributeValues: {
+      ":u": "csx",
+      ":n1": 80000
+    },
+    ExpressionAttributeNames: {
+      "#u": "user"
+    }
   }
 
   dynamodb.query(queryParams, (err, data) => {

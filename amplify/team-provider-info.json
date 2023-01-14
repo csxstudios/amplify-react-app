@@ -19,7 +19,7 @@
       "function": {
         "meterLambda": {
           "deploymentBucketName": "amplify-amplifyreactapp-dev-91141-deployment",
-          "s3Key": "amplify-builds/meterLambda-73397939714158654259-build.zip"
+          "s3Key": "amplify-builds/meterLambda-33396f4c58412f4e5464-build.zip"
         },
         "getWeatherLambda": {
           "deploymentBucketName": "amplify-amplifyreactapp-dev-91141-deployment",
