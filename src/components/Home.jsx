@@ -2,7 +2,7 @@
 import '../App.css';
 import { useContext } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
-import { MeterForm } from './';
+import { MeterForm, MeterCard } from './';
 import { AppContext } from '../providers/AppProvider';
 
 const Home = () => {
@@ -65,15 +65,15 @@ const Home = () => {
                 <Container className="py-5">
                     <Row>
                         <Col md={4}>
+                            <MeterCard />
+                        </Col>
+                        <Col md={4}>
                             <Card style={{ width: '100%' }}>
                                 <Card.Header><strong>Track Energy Usage</strong></Card.Header>
                                 <Card.Body>
                                     <MeterForm user={appContext.user.username} newDateISO='2023-01-07T08:40' temp={formState.temp} defaultState={formState} />
                                 </Card.Body>
                             </Card>
-                        </Col>
-                        <Col md={4}>
-                            <span></span>
                         </Col>
                     </Row>
                 </Container>
