@@ -1,5 +1,5 @@
 import { React, useContext } from 'react';
-import { Container, Col, Row, Card, Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { API } from 'aws-amplify';
 import { AppContext } from '../providers/AppProvider';
 
@@ -10,14 +10,14 @@ const MeterCard = () => {
         console.log(e.target.name, e.target.value);
         const apiData = await API.get('meterApi', '/meter', {
             queryStringParameters: {
-                //order: 'byPrice'
                 Limit: 1,
                 ScanIndexForward: false
             }
         });
         console.log("apiData", apiData);
+        console.log(JSON.stringify(apiData));
 
-        document.getElementById("meterValue").value = JSON.stringify(apiData);
+        document.getElementById("meterValue").innerHTML = JSON.stringify(apiData);
     }
     return (
         <Card style={{ width: '100%' }}>

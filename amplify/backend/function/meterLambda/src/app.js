@@ -86,7 +86,9 @@ app.get(path, function (req, res) {
     },
     ExpressionAttributeNames: {
       "#u": "user"
-    }
+    },
+    Limit: 1,
+    ScanIndexForward: false
   }
 
   dynamodb.query(queryParams, (err, data) => {
