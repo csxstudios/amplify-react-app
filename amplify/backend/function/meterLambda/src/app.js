@@ -91,6 +91,9 @@ app.get(path, function (req, res) {
     ScanIndexForward: false
   }
 
+  // let newParams = req.queryStringParameters;
+  // queryParams = { ...queryParams, ...newParams };
+
   dynamodb.query(queryParams, (err, data) => {
     if (err) {
       res.statusCode = 500;

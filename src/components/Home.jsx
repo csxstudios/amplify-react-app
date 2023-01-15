@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
 import { MeterForm, MeterCard } from './';
 import { AppContext } from '../providers/AppProvider';
+import { toISOStringWithTimezone, parseDateISOString } from '../utils/dateFunctions';
 
 const Home = () => {
     const appContext = useContext(AppContext);
@@ -19,34 +20,19 @@ const Home = () => {
         temp: 0
     };
 
-    const toISOStringWithTimezone = date => {
-        const pad = n => `${Math.floor(Math.abs(n))}`.padStart(2, '0');
-        return date.getFullYear() +
-            '-' + pad(date.getMonth() + 1) +
-            '-' + pad(date.getDate()) +
-            'T' + pad(date.getHours()) +
-            ':' + pad(date.getMinutes());
-    }
-
     function updateFormDate(dateISOString) {
-        var date = new Date(dateISOString);
-        var thisDateEpoch = date.valueOf() / 1000;
-        console.log("epoch", thisDateEpoch.toString().length, thisDateEpoch);
-        var thisDateISO = dateISOString;
-        var thisMonth = date.toLocaleString('default', { month: 'short' });
-        var thisWeekday = date.toLocaleString('default', { weekday: 'short' });
-        var thisYear = Number(date.toLocaleString('default', { year: 'numeric' }));
+        let newDateObj = parseDateISOString(dateISOString);
 
         console.log("change", dateISOString, formState);
 
         Object.assign(
             formState,
             {
-                date: thisDateEpoch,
-                dateISO: thisDateISO,
-                month: thisMonth,
-                weekday: thisWeekday,
-                year: thisYear
+                date: newDateObj.dateEpoch,
+                dateISO: newDateObj.dateISO,
+                month: newDateObj.month,
+                weekday: newDateObj.weekday,
+                year: newDateObj.year
             }
         );
     }
@@ -71,28 +57,13 @@ const Home = () => {
                             <Card style={{ width: '100%' }}>
                                 <Card.Header><strong>Track Energy Usage</strong></Card.Header>
                                 <Card.Body>
-                                    <MeterForm user={appContext.user.username} newDateISO='2023-01-07T08:40' temp={formState.temp} defaultState={formState} />
+                                    <MeterForm user={appContext.user.username} defaultState={formState} />
                                 </Card.Body>
                             </Card>
                         </Col>
                     </Row>
                 </Container>
             </div>
-
-            {/* <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <h1>Hello {appContext.user.username}</h1>
-                <button type="button" onClick={appContext.signOut}>Sign out</button>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header> */}
-
         </div>
     );
 }

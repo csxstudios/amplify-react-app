@@ -2,80 +2,29 @@ import { React, useContext } from 'react';
 import { Card } from 'react-bootstrap';
 import { API } from 'aws-amplify';
 import { AppContext } from '../providers/AppProvider';
+import { getLastMeterValue, calculateMeterBill, prevMeterBill } from '../utils/meterData';
+import { formatNumber, formatDecimal, formatCurrency } from '../utils/format';
+import { epochPlusDays } from '../utils/dateFunctions';
 
 const MeterCard = () => {
     const appContext = useContext(AppContext);
 
-    const billingMeter = {
-        meter: 80131,
-        date: new Date("12/09/2022 12:00").valueOf() / 1000
-    }
-
-    const getMeter = async () => {
-        //console.log(e.target.name, e.target.value);
-        const apiData = await API.get('meterApi', '/meter', {
-            queryStringParameters: {
-                Limit: 1,
-                ScanIndexForward: false
-            }
-        });
-        console.log("apiData", apiData);
-
-        return apiData;
-    }
-
+    const nextBillDate = epochPlusDays(prevMeterBill.date, 30);
     const updateMeterCard = async () => {
-        let meterCalc = {
-            meterDiff: 0,
-            epochDiff: 0,
-            hoursDiff: 0,
-            kwh: 0,
-            kwd: 0,
-            kwm: 0,
-            kwy: 0,
-            rate: 0.097310,
-            taxRate: 0.0306136844580296,
-            //The 2023 power cost adjustment (PCA) is $8.55 per month for a customer using 1,000 kilowatt-hours per month, a 95-cent reduction from the 2022 PCA rate
-            powerCostAdjustmentRate: 8.55 / 1000,
-            dist300kWhRate: 0.021090,
-            distOver300kWhRate: 0.016090,
-            dist300kWhCharge: 0,
-            distOver300kWhCharge: 0,
-            supplyCharge: 0,
-            powerCostAdjustmentCharge: 0,
-            serviceCharge: 15,
-            subtotal: 0,
-            taxCharge: 0,
-            currentTotalCharges: 0,
-        }
         console.log("getMeter");
-        await getMeter()
+        await getLastMeterValue()
             .then((meterData) => {
-                meterCalc.meterDiff = meterData[0].meter - billingMeter.meter;
-                meterCalc.epochDiff = meterData[0].date - billingMeter.date;
-                meterCalc.hoursDiff = meterCalc.epochDiff / 3600;
-                meterCalc.kwh = meterCalc.meterDiff / meterCalc.hoursDiff;
-                meterCalc.kwd = meterCalc.kwh * 24;
-                meterCalc.kwm = meterCalc.kwd * 30;
-                meterCalc.kwy = meterCalc.kwd * 365;
-                meterCalc.dist300kWhCharge = 300 * meterCalc.distOver300kWhRate;
-                meterCalc.distOver300kWhCharge = (meterCalc.kwm - 300) * meterCalc.distOver300kWhRate;
-                meterCalc.supplyCharge = meterCalc.kwm * meterCalc.rate;
-                meterCalc.powerCostAdjustmentCharge = meterCalc.kwm * meterCalc.powerCostAdjustmentRate;
-                meterCalc.subtotal = meterCalc.dist300kWhCharge + meterCalc.distOver300kWhCharge + meterCalc.supplyCharge + meterCalc.serviceCharge + meterCalc.powerCostAdjustmentCharge;
-                meterCalc.taxCharge = meterCalc.subtotal * meterCalc.taxRate;
-                meterCalc.currentTotalCharges = meterCalc.subtotal + meterCalc.taxCharge;
+                let meterBillData = calculateMeterBill(prevMeterBill.meter, meterData[0].meter, prevMeterBill.date, meterData[0].date);
 
-                console.log(meterCalc);
+                console.log(meterBillData);
 
-                document.getElementById("kwh").innerHTML = meterCalc.kwh.toLocaleString('en-US', { maximumFractionDigits: 2 }) + " kw/h";
-                document.getElementById("kwd").innerHTML = meterCalc.kwd.toLocaleString('en-US', { maximumFractionDigits: 0 }) + " kw/day";
-                document.getElementById("kwm").innerHTML = meterCalc.kwm.toLocaleString('en-US', { maximumFractionDigits: 0 }) + " kw/month";
-                document.getElementById("kwy").innerHTML = meterCalc.kwy.toLocaleString('en-US', { maximumFractionDigits: 0 }) + " kw/year";
-                document.getElementById("currentTotalCharges").innerHTML = meterCalc.currentTotalCharges.toLocaleString('en-US', { style: "currency", currency: "USD" });
-                document.getElementById("meterValue").innerHTML = meterData[0].meter.toLocaleString() + " kw";
-            }
-            );
+                document.getElementById("kwh").innerHTML = formatDecimal(meterBillData.kwh, 2) + " kw/h";
+                document.getElementById("kwd").innerHTML = formatNumber(meterBillData.kwd) + " kw/day";
+                document.getElementById("kwm").innerHTML = formatNumber(meterBillData.kwm) + " kw/month";
+                document.getElementById("kwy").innerHTML = formatNumber(meterBillData.kwy) + " kw/year";
+                document.getElementById("currentTotalCharges").innerHTML = formatCurrency(meterBillData.currentTotalCharges);
+                document.getElementById("meterValue").innerHTML = formatNumber(meterData[0].meter) + " kw";
+            });
     }
 
     updateMeterCard();
@@ -99,7 +48,7 @@ const MeterCard = () => {
                 <p id="kwy">0 Kw/year</p>
                 <p id="currentTotalCharges">$0</p>
                 <p>Current meter: <span id="meterValue">0</span></p>
-                <small>Last meter reading was {billingMeter.meter.toLocaleString()} on {new Date(billingMeter.date * 1000).toLocaleDateString()}</small>
+                <small>Last meter reading was {prevMeterBill.meter.toLocaleString()} on {new Date(prevMeterBill.date * 1000).toLocaleDateString()}</small>
             </Card.Body>
         </Card>
     )
