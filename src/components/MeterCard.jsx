@@ -8,29 +8,25 @@ import { epochPlusDays } from '../utils/dateFunctions';
 const MeterCard = () => {
     const appContext = useContext(AppContext);
 
-    const [lastBill, setLastBill] = useState();
+    const [lastBillData, setLastBillData] = useState();
     const [prevMeterBillData, setPrevMeterBillData] = useState();
     const [currMeterBillData, setCurrMeterBillData] = useState();
     const [estMeterBillData, setEstMeterBillData] = useState();
 
     useEffect(() => {
         getLastMeterValue()
-            .then(async (meterData) => {
+            .then((meterData) => {
                 const lastBill = prevMeterBill[prevMeterBill.length - 1];
-                setLastBill(prevMeterBill[prevMeterBill.length - 1]);
-                console.log("lastBill", lastBill);
-                setPrevMeterBillData(calculateMeterBill(lastBill.meterStart, lastBill.meterEnd, lastBill.dateStart, lastBill.dateEnd));
-                setCurrMeterBillData(calculateMeterBill(lastBill.meterEnd, meterData[0].meter, lastBill.dateEnd, meterData[0].date));
+                const preMeterBill = calculateMeterBill(lastBill.meterStart, lastBill.meterEnd, lastBill.dateStart, lastBill.dateEnd);
+                const currMeterBill = calculateMeterBill(lastBill.meterEnd, meterData[0].meter, lastBill.dateEnd, meterData[0].date);
+                const estKwm = lastBill.meterEnd + currMeterBill.kwm;
+                const nextBillDate = epochPlusDays(lastBill.dateEnd, 30);
+                const estMeterBill = calculateMeterBill(lastBill.meterEnd, estKwm, lastBill.dateEnd, nextBillDate);
 
-                if (currMeterBillData) {
-                    const estKwm = lastBill.meterEnd + currMeterBillData.kwm;
-                    const nextBillDate = epochPlusDays(lastBill.dateEnd, 30);
-
-                    setEstMeterBillData(calculateMeterBill(lastBill.meterEnd, estKwm, lastBill.dateEnd, nextBillDate));
-
-                    console.log("prevMeterBillData", prevMeterBillData);
-                    console.log("estMeterBillData", estMeterBillData);
-                }
+                setLastBillData(lastBill);
+                setPrevMeterBillData(preMeterBill);
+                setCurrMeterBillData(currMeterBill);
+                setEstMeterBillData(estMeterBill);
             })
     }, []);
 
@@ -82,7 +78,7 @@ const MeterCard = () => {
                             <p className="small mb-0">{prevMeterBillData && formatNumber(prevMeterBillData.kwd) + " kw/day"}</p>
                             <p className="small mb-0">{prevMeterBillData && formatNumber(prevMeterBillData.kwm) + " kw/month"}</p>
                             <p className="small mb-0">{prevMeterBillData && formatNumber(prevMeterBillData.kwy) + " kw/year"}</p>
-                            <small>Meter reading was {lastBill && formatNumber(lastBill.meterEnd)} on {lastBill && formatDate(lastBill.dateEnd * 1000)} for {appContext.user.username}</small>
+                            <small>Meter reading was {lastBillData && formatNumber(lastBillData.meterEnd)} on {lastBillData && formatDate(lastBillData.dateEnd * 1000)} for {appContext.user.username}</small>
                         </div>
                         <div id="prevTotalCharges">
                             {currMeterBillData && formatCurrency(prevMeterBillData.total)}
