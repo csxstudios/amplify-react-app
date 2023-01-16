@@ -50,7 +50,7 @@ const Home = () => {
             <div className="bg-dark">
                 <Container className="py-5">
                     <Row>
-                        <Col md={4}>
+                        <Col md={4} className="mb-3">
                             <MeterCard />
                         </Col>
                         <Col md={4}>

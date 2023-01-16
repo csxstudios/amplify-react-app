@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { API } from 'aws-amplify';
+import { formatTime } from '../utils/format';
 
 class MeterForm extends Component {
     constructor(props) {
@@ -105,7 +106,7 @@ class MeterForm extends Component {
         console.log(this.state);
         return (
             <div>
-                <h5>It's currently {dateISO} and {temp} F.</h5>
+                <h5>It's currently {formatTime(Date.now())} and {temp} °F.</h5>
                 <Form>
                     <Form.Control type="hidden" onChange={this.onChange}></Form.Control>
                     <Form.Group className="mb-3" controlId="formMeterReading">

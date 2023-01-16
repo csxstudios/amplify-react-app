@@ -1,12 +1,20 @@
 import { API } from 'aws-amplify';
 
-export const prevMeterBill = {
-    meter: 80131,
-    date: new Date("12/09/2022 12:00").valueOf() / 1000
-}
+export const prevMeterBill = [
+    {
+        meterStart: 80131,
+        dateStart: new Date("12/09/2022 12:00").valueOf() / 1000,
+        meterEnd: 82353,
+        dateEnd: new Date("1/09/2023 12:00").valueOf() / 1000
+    }
+];
 
 export const calculateMeterBill = (meterOld, meterNew, dateEpochOld, dateEpochNew) => {
     let meterCalc = {
+        meterStart: meterOld,
+        meterEnd: meterNew,
+        dateStart: dateEpochOld,
+        dateEnd: dateEpochNew,
         meterDiff: 0,
         epochDiff: 0,
         hoursDiff: 0,
@@ -27,7 +35,7 @@ export const calculateMeterBill = (meterOld, meterNew, dateEpochOld, dateEpochNe
         serviceCharge: 15,
         subtotal: 0,
         taxCharge: 0,
-        currentTotalCharges: 0,
+        total: 0,
     }
 
     meterCalc.meterDiff = meterNew - meterOld;
@@ -37,33 +45,33 @@ export const calculateMeterBill = (meterOld, meterNew, dateEpochOld, dateEpochNe
     meterCalc.kwd = meterCalc.kwh * 24;
     meterCalc.kwm = meterCalc.kwd * 30;
     meterCalc.kwy = meterCalc.kwd * 365;
-    meterCalc.dist300kWhCharge = 300 * meterCalc.distOver300kWhRate;
-    meterCalc.distOver300kWhCharge = (meterCalc.kwm - 300) * meterCalc.distOver300kWhRate;
-    meterCalc.supplyCharge = meterCalc.kwm * meterCalc.rate;
-    meterCalc.powerCostAdjustmentCharge = meterCalc.kwm * meterCalc.powerCostAdjustmentRate;
+    meterCalc.dist300kWhCharge = 300 * meterCalc.dist300kWhRate;
+    meterCalc.distOver300kWhCharge = (meterCalc.meterDiff - 300) * meterCalc.distOver300kWhRate;
+    meterCalc.supplyCharge = meterCalc.meterDiff * meterCalc.rate;
+    meterCalc.powerCostAdjustmentCharge = meterCalc.meterDiff * meterCalc.powerCostAdjustmentRate;
     meterCalc.subtotal = meterCalc.dist300kWhCharge + meterCalc.distOver300kWhCharge + meterCalc.supplyCharge + meterCalc.serviceCharge + meterCalc.powerCostAdjustmentCharge;
     meterCalc.taxCharge = meterCalc.subtotal * meterCalc.taxRate;
-    meterCalc.currentTotalCharges = meterCalc.subtotal + meterCalc.taxCharge;
+    meterCalc.total = meterCalc.subtotal + meterCalc.taxCharge;
 
     return meterCalc;
 }
 
 export const getLastMeterValue = async () => {
-    let newQuery = {
-        queryStringParameters: {
-            IndexName: "user-meter-index",
-            KeyConditionExpression: '#u = :u and meter > :n1',
-            ExpressionAttributeValues: {
-                ":u": "csx",
-                ":n1": 80000
-            },
-            ExpressionAttributeNames: {
-                "#u": "user"
-            },
-            Limit: 1,
-            ScanIndexForward: false
-        }
-    }
+    // let newQuery = {
+    //     queryStringParameters: {
+    //         IndexName: "user-meter-index",
+    //         KeyConditionExpression: '#u = :u and meter > :n1',
+    //         ExpressionAttributeValues: {
+    //             ":u": "csx",
+    //             ":n1": 80000
+    //         },
+    //         ExpressionAttributeNames: {
+    //             "#u": "user"
+    //         },
+    //         Limit: 1,
+    //         ScanIndexForward: false
+    //     }
+    // }
 
     const apiData = await API.get('meterApi', '/meter');
     console.log("getLastMeterValue", apiData);
@@ -72,29 +80,29 @@ export const getLastMeterValue = async () => {
 }
 
 export const getLastMeterOnDate = async (dateEpoch) => {
-    const epochStart = dateEpoch;
-    const epochEnd = dateEpoch + 86400;
+    // const epochStart = dateEpoch;
+    // const epochEnd = dateEpoch + 86400;
 
-    let newQuery = {
-        queryStringParameters: {
-            IndexName: "user-date-index",
-            KeyConditionExpression: '#u = :u and #d between :n1 and :n2',
-            ExpressionAttributeValues: {
-                ":u": "csx",
-                ":n1": epochStart,
-                ":n2": epochEnd
-            },
-            ExpressionAttributeNames: {
-                "#u": "user",
-                "#d": "date"
-            },
-            Limit: 1,
-            ScanIndexForward: false
-        }
-    }
+    // let newQuery = {
+    //     queryStringParameters: {
+    //         IndexName: "user-date-index",
+    //         KeyConditionExpression: '#u = :u and #d between :n1 and :n2',
+    //         ExpressionAttributeValues: {
+    //             ":u": "csx",
+    //             ":n1": epochStart,
+    //             ":n2": epochEnd
+    //         },
+    //         ExpressionAttributeNames: {
+    //             "#u": "user",
+    //             "#d": "date"
+    //         },
+    //         Limit: 1,
+    //         ScanIndexForward: false
+    //     }
+    // }
 
-    const apiData = await API.get('meterApi', '/meter', newQuery);
-    console.log("getLastMeterOnDate", apiData);
+    const apiData = await API.get('meterApi', '/meter');
+    //console.log("getLastMeterOnDate", apiData);
 
     return apiData;
 }
