@@ -87,7 +87,7 @@ app.get(path, function (req, res) {
     ExpressionAttributeNames: {
       "#u": "user"
     },
-    Limit: 1,
+    Limit: 30,
     ScanIndexForward: false
   }
 

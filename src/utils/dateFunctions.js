@@ -27,6 +27,7 @@ export const parseDateISOString = (dateISOString) => {
         year: 4040
     }
 
+    dateISOString = dateISOString ? dateISOString : toISOStringWithTimezone(new Date());
     let date = new Date(dateISOString);
     dateObj.dateEpoch = date.valueOf() / 1000;
     dateObj.dateISO = dateISOString;

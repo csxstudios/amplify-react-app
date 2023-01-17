@@ -106,3 +106,10 @@ export const getLastMeterOnDate = async (dateEpoch) => {
 
     return apiData;
 }
+
+export const getCurrentWeather = async (e) => {
+    const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.84&longitude=-77.43&current_weather=true&temperature_unit=fahrenheit');
+    const data = await response.json();
+    console.log("getCurrentWeather", data);
+    return data;
+};

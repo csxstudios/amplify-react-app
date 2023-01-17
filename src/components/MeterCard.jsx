@@ -1,14 +1,17 @@
 import { React, useContext, useState, useEffect } from 'react';
-import { Card, ListGroup } from 'react-bootstrap';
+import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { AppContext } from '../providers/AppProvider';
 import { getLastMeterValue, calculateMeterBill, prevMeterBill } from '../utils/meterData';
 import { formatNumber, formatDecimal, formatCurrency, formatDate } from '../utils/format';
 import { epochPlusDays } from '../utils/dateFunctions';
+import MeterLineChart from './MeterLineChart';
 
 const MeterCard = () => {
     const appContext = useContext(AppContext);
+    console.log("appContext", appContext);
 
     const [lastBillData, setLastBillData] = useState();
+    const [meterUserData, setMeterUserData] = useState();
     const [prevMeterBillData, setPrevMeterBillData] = useState();
     const [currMeterBillData, setCurrMeterBillData] = useState();
     const [estMeterBillData, setEstMeterBillData] = useState();
@@ -27,6 +30,7 @@ const MeterCard = () => {
                 setPrevMeterBillData(preMeterBill);
                 setCurrMeterBillData(currMeterBill);
                 setEstMeterBillData(estMeterBill);
+                setMeterUserData(meterData.reverse());
             })
     }, []);
 
@@ -48,6 +52,9 @@ const MeterCard = () => {
                 9. Day to day change (%change)
                 10. Line chart of billable month to date
                 11. Last month's bill/expected bill
+
+                12. Api key/invitation key?
+                13. Google account 
                  */}
 
                 <h3 className='small'>Est. Bill on {estMeterBillData && formatDate(estMeterBillData.dateEnd * 1000)}</h3>
@@ -84,6 +91,9 @@ const MeterCard = () => {
                             {currMeterBillData && formatCurrency(prevMeterBillData.total)}
                         </div>
                     </ListGroup.Item>
+                    <ListGroupItem as="li" className="pt-4">
+                        <MeterLineChart chartData={meterUserData && meterUserData} />
+                    </ListGroupItem>
                 </ListGroup>
             </Card.Body>
         </Card>
