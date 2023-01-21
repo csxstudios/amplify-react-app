@@ -35,29 +35,24 @@ const MeterCreateForm = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        //do something
         const data = {
             body: formState
         }
-        console.log("submit", formState);
 
         if (data.body.meter > 0) {
             const apiData = await API.post('meterApi', '/meter', data);
-            console.log({ apiData });
+            alert("Meter reading added.")
+            window.location.reload(false);
         }
     }
 
     const onChange = (e) => {
-        console.log(e.target.name);
         const newState = formState;
         newState[e.target.name] = e.target.type === 'number' ? Number(e.target.value) : e.target.value;
         setFormState(newState);
-        console.log("onChange", formState);
     }
 
     const onChangeDate = (e) => {
-        console.log(e.target.name, e.target.value);
-
         const newState = formState;
         const parseDate = parseDateISOString(e.target.value);
         newState["date"] = parseDate.dateEpoch;
@@ -67,9 +62,6 @@ const MeterCreateForm = () => {
         newState["year"] = parseDate.year;
 
         setFormState(newState);
-
-        console.log("onChangeDate", formState);
-        window.location.reload(false);
     }
 
     return (
