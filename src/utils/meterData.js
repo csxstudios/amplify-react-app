@@ -4,8 +4,8 @@ export const prevMeterBill = [
     {
         meterStart: 80131,
         dateStart: new Date("12/09/2022 12:00").valueOf() / 1000,
-        meterEnd: 82353,
-        dateEnd: new Date("1/09/2023 12:00").valueOf() / 1000
+        meterEnd: 82395,
+        dateEnd: new Date("1/11/2023 12:00").valueOf() / 1000
     }
 ];
 

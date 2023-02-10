@@ -26,6 +26,8 @@ const MeterCard = () => {
                 const nextBillDate = epochPlusDays(lastBill.dateEnd, 30);
                 const estMeterBill = calculateMeterBill(lastBill.meterEnd, estKwm, lastBill.dateEnd, nextBillDate);
 
+                console.log(preMeterBill);
+
                 setLastBillData(lastBill);
                 setPrevMeterBillData(preMeterBill);
                 setCurrMeterBillData(currMeterBill);
