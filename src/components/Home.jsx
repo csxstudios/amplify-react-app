@@ -9,9 +9,6 @@ const Home = () => {
             <div className="bg-dark">
                 <Container className="py-5">
                     <Row>
-                        <Col md={4} className="mb-3">
-                            <MeterCard />
-                        </Col>
                         <Col md={4}>
                             <Card style={{ width: '100%' }}>
                                 <Card.Header><strong>Track Energy Usage</strong></Card.Header>
@@ -19,6 +16,9 @@ const Home = () => {
                                     <MeterCreateForm />
                                 </Card.Body>
                             </Card>
+                        </Col>
+                        <Col md={4} className="mb-3">
+                            <MeterCard />
                         </Col>
                     </Row>
                 </Container>

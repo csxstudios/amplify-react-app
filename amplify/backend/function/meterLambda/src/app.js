@@ -81,7 +81,7 @@ app.get(path, function (req, res) {
     IndexName: "user-meter-index",
     KeyConditionExpression: '#u = :u and meter > :n1',
     ExpressionAttributeValues: {
-      ":u": "csx",
+      ":u": req.query.user,
       ":n1": 80000
     },
     ExpressionAttributeNames: {
@@ -91,8 +91,7 @@ app.get(path, function (req, res) {
     ScanIndexForward: false
   }
 
-  // let newParams = req.queryStringParameters;
-  // queryParams = { ...queryParams, ...newParams };
+  console.log(req.query.user, req.query, queryParams);
 
   dynamodb.query(queryParams, (err, data) => {
     if (err) {

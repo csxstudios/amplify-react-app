@@ -57,52 +57,27 @@ export const calculateMeterBill = (meterOld, meterNew, dateEpochOld, dateEpochNe
 }
 
 export const getLastMeterValue = async () => {
-    // let newQuery = {
-    //     queryStringParameters: {
-    //         IndexName: "user-meter-index",
-    //         KeyConditionExpression: '#u = :u and meter > :n1',
-    //         ExpressionAttributeValues: {
-    //             ":u": "csx",
-    //             ":n1": 80000
-    //         },
-    //         ExpressionAttributeNames: {
-    //             "#u": "user"
-    //         },
-    //         Limit: 1,
-    //         ScanIndexForward: false
-    //     }
-    // }
+    const myInit = {
+        queryStringParameters: {
+            user: "csx"
+        }
+    };
 
-    const apiData = await API.get('meterApi', '/meter');
-    console.log("getLastMeterValue", apiData);
+    console.log("getLastMeterValue");
+    const apiData = await API.get('meterApi', '/meter', myInit);
 
     return apiData;
 }
 
 export const getLastMeterOnDate = async (dateEpoch) => {
-    // const epochStart = dateEpoch;
-    // const epochEnd = dateEpoch + 86400;
+    const myInit = {
+        queryStringParameters: {
+            user: "csx"
+        }
+    };
 
-    // let newQuery = {
-    //     queryStringParameters: {
-    //         IndexName: "user-date-index",
-    //         KeyConditionExpression: '#u = :u and #d between :n1 and :n2',
-    //         ExpressionAttributeValues: {
-    //             ":u": "csx",
-    //             ":n1": epochStart,
-    //             ":n2": epochEnd
-    //         },
-    //         ExpressionAttributeNames: {
-    //             "#u": "user",
-    //             "#d": "date"
-    //         },
-    //         Limit: 1,
-    //         ScanIndexForward: false
-    //     }
-    // }
-
-    const apiData = await API.get('meterApi', '/meter');
-    //console.log("getLastMeterOnDate", apiData);
+    console.log("getLastMeterOnDate");
+    const apiData = await API.get('meterApi', '/meter', myInit);
 
     return apiData;
 }
